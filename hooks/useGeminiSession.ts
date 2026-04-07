@@ -6,8 +6,8 @@ import { useAudioCapture } from './useAudioCapture'
 import { useAudioPlayback } from './useAudioPlayback'
 import type { SessionState, TranscriptEntry, ToolCallPayload } from '@/types/gemini'
 
-// Confirmed working: accepts text+audio input, responds with audio, supports transcription
-const MODEL = 'gemini-2.5-flash-native-audio-latest'
+// Updated to Gemini 3.1 Flash Live Preview
+const MODEL = 'gemini-3.1-flash-live-preview'
 const SESSION_HANDLE_KEY = 'gemini_session_handle'
 
 type Options = {
@@ -192,10 +192,7 @@ export function useGeminiSession(options: Options = {}) {
     if (!sessionRef.current || stateRef.current === 'idle' || stateRef.current === 'error') {
       await connect()
     }
-    sessionRef.current?.sendClientContent({
-      turns: [{ role: 'user', parts: [{ text }] }],
-      turnComplete: true,
-    })
+    sessionRef.current?.sendRealtimeInput({ text })
     setSessionState('speaking')
   }, [connect, setSessionState])
 

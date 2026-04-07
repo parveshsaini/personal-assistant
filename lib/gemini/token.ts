@@ -2,7 +2,7 @@ import { Modality, ThinkingLevel } from '@google/genai'
 import { gemini } from './client'
 import { ALL_DECLARATIONS } from './function-declarations'
 
-const MODEL = 'gemini-2.5-flash-native-audio-latest'
+const MODEL = 'gemini-3.1-flash-live-preview'
 
 export async function createEphemeralToken(): Promise<string> {
   const expireTime = new Date(Date.now() + 30 * 60 * 1000).toISOString()
