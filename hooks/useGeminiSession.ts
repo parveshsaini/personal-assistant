@@ -30,6 +30,8 @@ export function useGeminiSession(options: Options = {}) {
   const sessionRef = useRef<Session | null>(null)
   const stateRef = useRef<SessionState>('idle')
   const optionsRef = useRef(options)
+  const pendingUserRef = useRef('')
+  const pendingModelRef = useRef('')
   optionsRef.current = options
 
   const { start: startCapture, stop: stopCapture } = useAudioCapture()
@@ -98,22 +100,36 @@ export function useGeminiSession(options: Options = {}) {
               if (sc.inputTranscription?.text) {
                 const text = sc.inputTranscription.text
                 setInputTranscript(text)
-                optionsRef.current.onTranscript?.({ role: 'user', text, timestamp: Date.now() })
+                pendingUserRef.current += text + ' '
               }
 
               if (sc.outputTranscription?.text) {
+                // If AI starts speaking, flush the user's accumulated input.
+                if (pendingUserRef.current.trim()) {
+                  optionsRef.current.onTranscript?.({ role: 'user', text: pendingUserRef.current.trim(), timestamp: Date.now() })
+                  pendingUserRef.current = ''
+                }
+
                 const text = sc.outputTranscription.text
                 setOutputTranscript(text)
-                optionsRef.current.onTranscript?.({ role: 'model', text, timestamp: Date.now() })
+                pendingModelRef.current += text + ' '
               }
 
               if (sc.interrupted) {
                 stopPlayback()
                 setSessionState('listening')
+                if (pendingModelRef.current.trim()) {
+                  optionsRef.current.onTranscript?.({ role: 'model', text: pendingModelRef.current.trim(), timestamp: Date.now() })
+                  pendingModelRef.current = ''
+                }
               }
 
               if (sc.generationComplete) {
                 setSessionState('listening')
+                if (pendingModelRef.current.trim()) {
+                  optionsRef.current.onTranscript?.({ role: 'model', text: pendingModelRef.current.trim(), timestamp: Date.now() })
+                  pendingModelRef.current = ''
+                }
               }
             }
 
@@ -181,6 +197,14 @@ export function useGeminiSession(options: Options = {}) {
   }, [connect, startCapture])
 
   const stopVoice = useCallback(() => {
+    if (pendingUserRef.current.trim()) {
+      optionsRef.current.onTranscript?.({ role: 'user', text: pendingUserRef.current.trim(), timestamp: Date.now() })
+      pendingUserRef.current = ''
+    }
+    if (pendingModelRef.current.trim()) {
+      optionsRef.current.onTranscript?.({ role: 'model', text: pendingModelRef.current.trim(), timestamp: Date.now() })
+      pendingModelRef.current = ''
+    }
     stopCapture()
     stopPlayback()
     try { sessionRef.current?.close() } catch { /* ignore */ }
