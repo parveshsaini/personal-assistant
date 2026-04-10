@@ -176,18 +176,6 @@ const slackDeclarations: FunctionDeclaration[] = [
       required: ['channel_id', 'text'],
     },
   },
-  {
-    name: 'search_slack_messages',
-    description: 'Search across all Slack messages in the workspace.',
-    parameters: {
-      type: Type.OBJECT,
-      properties: {
-        query: { type: Type.STRING, description: 'Search query text' },
-        count: { type: Type.NUMBER, description: 'Max number of results (default 10)' },
-      },
-      required: ['query'],
-    },
-  },
 ]
 
 export const ALL_DECLARATIONS: FunctionDeclaration[] = [

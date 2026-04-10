@@ -1,7 +1,7 @@
 import { getCalendarEvents, createCalendarEvent, checkAvailability, updateCalendarEvent } from './google-calendar'
 import { searchEmails, readEmail, sendEmail } from './gmail'
 import { readSheetRange, writeSheetRange } from './google-sheets'
-import { listSlackChannels, getSlackMessages, sendSlackMessage, searchSlackMessages } from './slack'
+import { listSlackChannels, getSlackMessages, sendSlackMessage } from './slack'
 
 type Handler = (args: Record<string, unknown>) => Promise<unknown>
 
@@ -18,7 +18,6 @@ const HANDLERS: Record<string, Handler> = {
   list_slack_channels: (a) => listSlackChannels(a as Parameters<typeof listSlackChannels>[0]),
   get_slack_messages: (a) => getSlackMessages(a as Parameters<typeof getSlackMessages>[0]),
   send_slack_message: (a) => sendSlackMessage(a as Parameters<typeof sendSlackMessage>[0]),
-  search_slack_messages: (a) => searchSlackMessages(a as Parameters<typeof searchSlackMessages>[0]),
 }
 
 export async function routeTool(name: string, args: Record<string, unknown>): Promise<unknown> {

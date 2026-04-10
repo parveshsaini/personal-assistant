@@ -5,13 +5,13 @@ const SLACK_AUTH_URL = 'https://slack.com/oauth/v2/authorize'
 const SLACK_TOKEN_URL = 'https://slack.com/api/oauth.v2.access'
 
 // Scopes needed for all Slack tools
+// Note: search:read is a user-token-only scope and cannot be granted to bot tokens
 const SCOPES = [
   'channels:read',
   'channels:history',
   'groups:read',
   'groups:history',
   'chat:write',
-  'search:read',
   'users:read',
 ].join(',')
 

@@ -94,24 +94,3 @@ export async function sendSlackMessage(args: {
   }
 }
 
-// ── search_slack_messages ──────────────────────────────────────────────────────
-export async function searchSlackMessages(args: {
-  query: string
-  count?: number
-}) {
-  const client = await getSlackClient()
-  const { query, count = 10 } = args
-
-  const res = await client.search.messages({ query, count })
-  if (!res.ok) throw new Error(`Slack API error: ${res.error}`)
-
-  const matches = (res.messages?.matches ?? []).map((m) => ({
-    channel: m.channel?.name ?? m.channel?.id ?? 'unknown',
-    user: m.username ?? m.user ?? 'unknown',
-    text: m.text ?? '',
-    timestamp: m.ts ? new Date(parseFloat(m.ts) * 1000).toISOString() : null,
-    permalink: m.permalink ?? null,
-  }))
-
-  return { results: matches, count: matches.length, query }
-}

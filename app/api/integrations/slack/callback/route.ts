@@ -19,7 +19,6 @@ export async function GET(req: NextRequest) {
       'groups:read',
       'groups:history',
       'chat:write',
-      'search:read',
       'users:read',
     ])
 
