@@ -2,7 +2,7 @@
 
 import { useSearchParams } from 'next/navigation'
 
-export function IntegrationsClient({ googleConnected, slackConnected, hubspotConnected }: { googleConnected: boolean; slackConnected: boolean; hubspotConnected: boolean }) {
+export function IntegrationsClient({ googleConnected, slackConnected, hubspotConnected, notionConnected }: { googleConnected: boolean; slackConnected: boolean; hubspotConnected: boolean; notionConnected: boolean }) {
   const params = useSearchParams()
   const justConnected = params.get('connected')
   const errorParam = params.get('error')
@@ -71,13 +71,24 @@ export function IntegrationsClient({ googleConnected, slackConnected, hubspotCon
                   )}
                 </div>
 
-                {/* Notion — coming soon */}
-                <div className="flex items-center justify-between p-5 rounded-2xl bg-[#f8f9fa] border border-gray-100 opacity-60">
+                {/* Notion */}
+                <div className="flex items-center justify-between p-5 rounded-2xl bg-[#f8f9fa] border border-gray-100 hover:border-gray-200 hover:bg-gray-50 transition-all">
                   <div>
                     <div className="font-bold text-[15px] text-gray-900 tracking-tight">Notion</div>
-                    <div className="text-[13px] text-gray-500 mt-1 font-medium">Pages · Databases</div>
+                    <div className="text-[13px] text-gray-500 mt-1 font-medium">Pages · Databases · Blocks</div>
                   </div>
-                  <span className="text-[11px] font-bold tracking-widest uppercase text-gray-400 bg-gray-200/50 px-3 py-1 rounded-full">Coming soon</span>
+                  {notionConnected ? (
+                    <span className="text-xs font-bold px-3 py-1.5 rounded-full bg-green-100 text-green-700 border border-green-200 shadow-sm">
+                      Connected
+                    </span>
+                  ) : (
+                    <a
+                      href="/api/integrations/notion/auth"
+                      className="text-[13px] font-bold px-5 py-2.5 rounded-xl bg-[#000000] hover:bg-[#333333] text-white shadow-md shadow-black/20 transition-all active:scale-95"
+                    >
+                      Connect
+                    </a>
+                  )}
                 </div>
 
                 {/* HubSpot */}

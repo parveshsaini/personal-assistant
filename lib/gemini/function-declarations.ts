@@ -290,10 +290,66 @@ const hubspotDeclarations: FunctionDeclaration[] = [
   },
 ]
 
+// Notion (4 tools)
+const notionDeclarations: FunctionDeclaration[] = [
+  {
+    name: 'search_notion',
+    description: 'Search pages and databases in Notion by keyword.',
+    parameters: {
+      type: Type.OBJECT,
+      properties: {
+        query: { type: Type.STRING, description: 'Search keyword' },
+        filter: { type: Type.STRING, description: 'Restrict results to "page" or "database" (optional)' },
+        limit: { type: Type.NUMBER, description: 'Max results to return (default 10)' },
+      },
+      required: ['query'],
+    },
+  },
+  {
+    name: 'get_notion_page',
+    description: 'Read the full content of a Notion page by its ID.',
+    parameters: {
+      type: Type.OBJECT,
+      properties: {
+        page_id: { type: Type.STRING, description: 'Notion page ID (with or without dashes)' },
+      },
+      required: ['page_id'],
+    },
+  },
+  {
+    name: 'create_notion_page',
+    description: 'Create a new Notion page inside an existing page or database.',
+    parameters: {
+      type: Type.OBJECT,
+      properties: {
+        title: { type: Type.STRING, description: 'Page title' },
+        content: { type: Type.STRING, description: 'Page body text (newlines create separate blocks)' },
+        parent_page_id: { type: Type.STRING, description: 'ID of the parent page (use this OR parent_database_id)' },
+        parent_database_id: { type: Type.STRING, description: 'ID of the parent database (use this OR parent_page_id)' },
+      },
+      required: ['title'],
+    },
+  },
+  {
+    name: 'append_notion_blocks',
+    description: 'Append new content blocks to the bottom of an existing Notion page.',
+    parameters: {
+      type: Type.OBJECT,
+      properties: {
+        page_id: { type: Type.STRING, description: 'Notion page ID to append to' },
+        content: { type: Type.STRING, description: 'Text to append (newlines create separate blocks)' },
+        block_type: { type: Type.STRING, description: 'Block type: paragraph (default), bulleted_list_item, numbered_list_item, to_do, heading_2, or quote' },
+      },
+      required: ['page_id', 'content'],
+    },
+  },
+]
+
 export const ALL_DECLARATIONS: FunctionDeclaration[] = [
   ...calendarDeclarations,
   ...gmailDeclarations,
   ...sheetsDeclarations,
   ...slackDeclarations,
   ...hubspotDeclarations,
+  ...notionDeclarations,
 ]

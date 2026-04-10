@@ -3,6 +3,7 @@ import { searchEmails, readEmail, sendEmail } from './gmail'
 import { readSheetRange, writeSheetRange } from './google-sheets'
 import { listSlackChannels, getSlackMessages, sendSlackMessage } from './slack'
 import { searchHubSpotContacts, getHubSpotDeals, createHubSpotContact, updateHubSpotDeal, getHubSpotTickets, createHubSpotTicket, updateHubSpotTicket, deleteHubSpotTicket } from './hubspot'
+import { searchNotion, getNotionPage, createNotionPage, appendNotionBlocks } from './notion'
 
 type Handler = (args: Record<string, unknown>) => Promise<unknown>
 
@@ -27,6 +28,10 @@ const HANDLERS: Record<string, Handler> = {
   create_hubspot_ticket: (a) => createHubSpotTicket(a as Parameters<typeof createHubSpotTicket>[0]),
   update_hubspot_ticket: (a) => updateHubSpotTicket(a as Parameters<typeof updateHubSpotTicket>[0]),
   delete_hubspot_ticket: (a) => deleteHubSpotTicket(a as Parameters<typeof deleteHubSpotTicket>[0]),
+  search_notion: (a) => searchNotion(a as Parameters<typeof searchNotion>[0]),
+  get_notion_page: (a) => getNotionPage(a as Parameters<typeof getNotionPage>[0]),
+  create_notion_page: (a) => createNotionPage(a as Parameters<typeof createNotionPage>[0]),
+  append_notion_blocks: (a) => appendNotionBlocks(a as Parameters<typeof appendNotionBlocks>[0]),
 }
 
 export async function routeTool(name: string, args: Record<string, unknown>): Promise<unknown> {

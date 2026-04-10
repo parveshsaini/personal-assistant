@@ -7,11 +7,13 @@ export default async function IntegrationsPage() {
   let googleConnected = false
   let slackConnected = false
   let hubspotConnected = false
+  let notionConnected = false
   try {
-    ;[googleConnected, slackConnected, hubspotConnected] = await Promise.all([
+    ;[googleConnected, slackConnected, hubspotConnected, notionConnected] = await Promise.all([
       isConnected('google'),
       isConnected('slack'),
       isConnected('hubspot'),
+      isConnected('notion'),
     ])
   } catch {
     // Tables not yet created — show disconnected state
@@ -21,6 +23,7 @@ export default async function IntegrationsPage() {
       googleConnected={googleConnected}
       slackConnected={slackConnected}
       hubspotConnected={hubspotConnected}
+      notionConnected={notionConnected}
     />
   )
 }
