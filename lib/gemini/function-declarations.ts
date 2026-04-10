@@ -178,9 +178,122 @@ const slackDeclarations: FunctionDeclaration[] = [
   },
 ]
 
+// HubSpot (4 tools)
+const hubspotDeclarations: FunctionDeclaration[] = [
+  {
+    name: 'search_hubspot_contacts',
+    description: 'Search HubSpot contacts by name, email, or company.',
+    parameters: {
+      type: Type.OBJECT,
+      properties: {
+        query: { type: Type.STRING, description: 'Search term — name, email, or company' },
+        limit: { type: Type.NUMBER, description: 'Max results to return (default 10)' },
+      },
+      required: ['query'],
+    },
+  },
+  {
+    name: 'get_hubspot_deals',
+    description: 'Retrieve HubSpot deals, optionally filtered by pipeline stage or keyword.',
+    parameters: {
+      type: Type.OBJECT,
+      properties: {
+        stage: { type: Type.STRING, description: 'Filter by deal stage internal value (e.g. "appointmentscheduled", "qualifiedtobuy", "presentationscheduled", "decisionmakerboughtin", "contractsent", "closedwon", "closedlost")' },
+        search: { type: Type.STRING, description: 'Keyword search across deal names' },
+        limit: { type: Type.NUMBER, description: 'Max results to return (default 10)' },
+      },
+    },
+  },
+  {
+    name: 'create_hubspot_contact',
+    description: 'Create a new contact in HubSpot CRM.',
+    parameters: {
+      type: Type.OBJECT,
+      properties: {
+        email: { type: Type.STRING, description: 'Contact email address (required)' },
+        first_name: { type: Type.STRING, description: 'First name' },
+        last_name: { type: Type.STRING, description: 'Last name' },
+        phone: { type: Type.STRING, description: 'Phone number' },
+        company: { type: Type.STRING, description: 'Company name' },
+        job_title: { type: Type.STRING, description: 'Job title' },
+      },
+      required: ['email'],
+    },
+  },
+  {
+    name: 'get_hubspot_tickets',
+    description: 'Retrieve HubSpot support tickets, optionally filtered by stage, priority, or keyword.',
+    parameters: {
+      type: Type.OBJECT,
+      properties: {
+        stage: { type: Type.STRING, description: 'Filter by pipeline stage ID (e.g. "1"=New, "2"=Waiting on contact, "3"=Waiting on us, "4"=Closed)' },
+        priority: { type: Type.STRING, description: 'Filter by priority: LOW, MEDIUM, or HIGH' },
+        search: { type: Type.STRING, description: 'Keyword search across ticket subjects' },
+        limit: { type: Type.NUMBER, description: 'Max results to return (default 10)' },
+      },
+    },
+  },
+  {
+    name: 'create_hubspot_ticket',
+    description: 'Create a new support ticket in HubSpot.',
+    parameters: {
+      type: Type.OBJECT,
+      properties: {
+        subject: { type: Type.STRING, description: 'Ticket title/subject' },
+        content: { type: Type.STRING, description: 'Ticket description or issue details' },
+        stage: { type: Type.STRING, description: 'Pipeline stage ID (default "1" = New)' },
+        priority: { type: Type.STRING, description: 'Ticket priority: LOW, MEDIUM, or HIGH' },
+      },
+      required: ['subject'],
+    },
+  },
+  {
+    name: 'update_hubspot_ticket',
+    description: 'Update an existing HubSpot ticket — change subject, description, stage, or priority.',
+    parameters: {
+      type: Type.OBJECT,
+      properties: {
+        ticket_id: { type: Type.STRING, description: 'HubSpot ticket ID' },
+        subject: { type: Type.STRING, description: 'New ticket subject' },
+        content: { type: Type.STRING, description: 'New ticket description' },
+        stage: { type: Type.STRING, description: 'New pipeline stage ID' },
+        priority: { type: Type.STRING, description: 'New priority: LOW, MEDIUM, or HIGH' },
+      },
+      required: ['ticket_id'],
+    },
+  },
+  {
+    name: 'delete_hubspot_ticket',
+    description: 'Delete (soft-delete to recycle bin) a HubSpot ticket by ID.',
+    parameters: {
+      type: Type.OBJECT,
+      properties: {
+        ticket_id: { type: Type.STRING, description: 'HubSpot ticket ID to delete' },
+      },
+      required: ['ticket_id'],
+    },
+  },
+  {
+    name: 'update_hubspot_deal',
+    description: 'Update an existing HubSpot deal — change stage, amount, close date, or name.',
+    parameters: {
+      type: Type.OBJECT,
+      properties: {
+        deal_id: { type: Type.STRING, description: 'HubSpot deal ID' },
+        stage: { type: Type.STRING, description: 'New deal stage internal value' },
+        amount: { type: Type.NUMBER, description: 'New deal amount' },
+        close_date: { type: Type.STRING, description: 'New expected close date (YYYY-MM-DD)' },
+        name: { type: Type.STRING, description: 'New deal name' },
+      },
+      required: ['deal_id'],
+    },
+  },
+]
+
 export const ALL_DECLARATIONS: FunctionDeclaration[] = [
   ...calendarDeclarations,
   ...gmailDeclarations,
   ...sheetsDeclarations,
   ...slackDeclarations,
+  ...hubspotDeclarations,
 ]

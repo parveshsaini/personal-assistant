@@ -2,6 +2,7 @@ import { getCalendarEvents, createCalendarEvent, checkAvailability, updateCalend
 import { searchEmails, readEmail, sendEmail } from './gmail'
 import { readSheetRange, writeSheetRange } from './google-sheets'
 import { listSlackChannels, getSlackMessages, sendSlackMessage } from './slack'
+import { searchHubSpotContacts, getHubSpotDeals, createHubSpotContact, updateHubSpotDeal, getHubSpotTickets, createHubSpotTicket, updateHubSpotTicket, deleteHubSpotTicket } from './hubspot'
 
 type Handler = (args: Record<string, unknown>) => Promise<unknown>
 
@@ -18,6 +19,14 @@ const HANDLERS: Record<string, Handler> = {
   list_slack_channels: (a) => listSlackChannels(a as Parameters<typeof listSlackChannels>[0]),
   get_slack_messages: (a) => getSlackMessages(a as Parameters<typeof getSlackMessages>[0]),
   send_slack_message: (a) => sendSlackMessage(a as Parameters<typeof sendSlackMessage>[0]),
+  search_hubspot_contacts: (a) => searchHubSpotContacts(a as Parameters<typeof searchHubSpotContacts>[0]),
+  get_hubspot_deals: (a) => getHubSpotDeals(a as Parameters<typeof getHubSpotDeals>[0]),
+  create_hubspot_contact: (a) => createHubSpotContact(a as Parameters<typeof createHubSpotContact>[0]),
+  update_hubspot_deal: (a) => updateHubSpotDeal(a as Parameters<typeof updateHubSpotDeal>[0]),
+  get_hubspot_tickets: (a) => getHubSpotTickets(a as Parameters<typeof getHubSpotTickets>[0]),
+  create_hubspot_ticket: (a) => createHubSpotTicket(a as Parameters<typeof createHubSpotTicket>[0]),
+  update_hubspot_ticket: (a) => updateHubSpotTicket(a as Parameters<typeof updateHubSpotTicket>[0]),
+  delete_hubspot_ticket: (a) => deleteHubSpotTicket(a as Parameters<typeof deleteHubSpotTicket>[0]),
 }
 
 export async function routeTool(name: string, args: Record<string, unknown>): Promise<unknown> {
