@@ -138,8 +138,61 @@ const sheetsDeclarations: FunctionDeclaration[] = [
   },
 ]
 
+// Slack (4 tools)
+const slackDeclarations: FunctionDeclaration[] = [
+  {
+    name: 'list_slack_channels',
+    description: 'List available Slack channels in the workspace.',
+    parameters: {
+      type: Type.OBJECT,
+      properties: {
+        limit: { type: Type.NUMBER, description: 'Max number of channels to return (default 30)' },
+      },
+    },
+  },
+  {
+    name: 'get_slack_messages',
+    description: 'Get recent messages from a Slack channel.',
+    parameters: {
+      type: Type.OBJECT,
+      properties: {
+        channel_id: { type: Type.STRING, description: 'Slack channel ID (e.g. C01234ABC)' },
+        limit: { type: Type.NUMBER, description: 'Number of messages to retrieve (default 20)' },
+        oldest: { type: Type.STRING, description: 'Only fetch messages after this Unix timestamp (optional)' },
+      },
+      required: ['channel_id'],
+    },
+  },
+  {
+    name: 'send_slack_message',
+    description: 'Send a message to a Slack channel.',
+    parameters: {
+      type: Type.OBJECT,
+      properties: {
+        channel_id: { type: Type.STRING, description: 'Slack channel ID to send the message to' },
+        text: { type: Type.STRING, description: 'Message text to send' },
+        thread_ts: { type: Type.STRING, description: 'Timestamp of a message to reply in a thread (optional)' },
+      },
+      required: ['channel_id', 'text'],
+    },
+  },
+  {
+    name: 'search_slack_messages',
+    description: 'Search across all Slack messages in the workspace.',
+    parameters: {
+      type: Type.OBJECT,
+      properties: {
+        query: { type: Type.STRING, description: 'Search query text' },
+        count: { type: Type.NUMBER, description: 'Max number of results (default 10)' },
+      },
+      required: ['query'],
+    },
+  },
+]
+
 export const ALL_DECLARATIONS: FunctionDeclaration[] = [
   ...calendarDeclarations,
   ...gmailDeclarations,
   ...sheetsDeclarations,
+  ...slackDeclarations,
 ]

@@ -5,10 +5,14 @@ export const dynamic = 'force-dynamic'
 
 export default async function IntegrationsPage() {
   let googleConnected = false
+  let slackConnected = false
   try {
-    googleConnected = await isConnected('google')
+    ;[googleConnected, slackConnected] = await Promise.all([
+      isConnected('google'),
+      isConnected('slack'),
+    ])
   } catch {
     // Tables not yet created — show disconnected state
   }
-  return <IntegrationsClient googleConnected={googleConnected} />
+  return <IntegrationsClient googleConnected={googleConnected} slackConnected={slackConnected} />
 }
