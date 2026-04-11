@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { Mic } from 'lucide-react'
 import type { Message } from '@/lib/db/schema'
 
@@ -9,8 +10,8 @@ export function MessageBubble({ message }: Props) {
   return (
     <div className={`flex gap-3 w-full ${isUser ? 'flex-row-reverse' : 'flex-row'}`}>
        {!isUser && (
-          <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-600 to-blue-400 flex items-center justify-center flex-shrink-0 shadow-sm mt-1">
-             <span className="text-white font-bold text-[13px]">A</span>
+          <div className="w-8 h-8 rounded-full flex-shrink-0 shadow-sm mt-1 overflow-hidden">
+             <Image src="/ps-logo.png" alt="PSPA" width={32} height={32} />
           </div>
        )}
        {isUser && (
@@ -21,7 +22,7 @@ export function MessageBubble({ message }: Props) {
       <div className="flex flex-col">
           <div className={`flex items-center gap-2 mb-1.5 ${isUser ? 'justify-end' : 'justify-start'}`}>
                <span className={`text-[13px] font-bold ${isUser ? 'text-gray-900' : 'text-gray-400'}`}>
-                  {isUser ? 'User' : 'Aether'}
+                  {isUser ? 'User' : 'PSPA'}
                </span>
                <span className="text-[11px] text-gray-400 font-medium">9:41 AM</span>
           </div>

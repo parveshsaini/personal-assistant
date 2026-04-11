@@ -2,6 +2,7 @@
 
 import { useState, FormEvent } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import Image from 'next/image'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -41,14 +42,12 @@ export default function LoginPage() {
     <div className="min-h-screen w-full flex items-center justify-center bg-[#0d0d14]">
       <div className="w-full max-w-sm px-8 py-10 bg-[#11111a] rounded-3xl border border-white/[0.06] shadow-2xl shadow-black/40">
         {/* Logo */}
-        <div className="flex items-center justify-center mb-8">
-          <span className="text-2xl font-bold tracking-tighter text-white">
-            A<span className="text-blue-400">AI</span>
-          </span>
+        <div className="flex items-center justify-center mb-6">
+          <Image src="/ps-logo.png" alt="PSPA" width={64} height={64} className="rounded-2xl" />
         </div>
 
-        <h1 className="text-lg font-semibold text-white text-center mb-1">Welcome back</h1>
-        <p className="text-sm text-zinc-500 text-center mb-8">Sign in to your assistant</p>
+        <h1 className="text-lg font-semibold text-white text-center mb-1">PSPA</h1>
+        <p className="text-sm text-zinc-500 text-center mb-8">Parvesh Saini Personal Assistant</p>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">

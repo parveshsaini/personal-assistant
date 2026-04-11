@@ -105,7 +105,7 @@ export function AssistantShell() {
                   </div>
 
                   <div className="absolute bottom-5 left-6 right-6 flex justify-between text-[11px] font-bold text-gray-400 tracking-wider">
-                    <span>AETHER: <span className="text-gray-600">{state === 'listening' ? 'LISTENING' : (state === 'speaking' ? 'SPEAKING' : 'IDLE')}</span></span>
+                    <span>PSPA: <span className="text-gray-600">{state === 'listening' ? 'LISTENING' : (state === 'speaking' ? 'SPEAKING' : 'IDLE')}</span></span>
                     <span>USER: <span className="text-green-500">MIC ACTIVE</span></span>
                   </div>
                 </div>

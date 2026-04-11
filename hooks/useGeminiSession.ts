@@ -51,15 +51,23 @@ export function useGeminiSession(options: Options = {}) {
 
     setSessionState('connecting')
 
-    const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY
-    if (!apiKey) {
-      console.error('[Gemini] NEXT_PUBLIC_GEMINI_API_KEY is not set')
+    let ephemeralToken: string
+    try {
+      const res = await fetch('/api/gemini-token')
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`)
+      const data = await res.json()
+      ephemeralToken = data.token
+    } catch (err) {
+      console.error('[Gemini] Failed to get ephemeral token:', err)
       setSessionState('error')
       return
     }
 
-    // Direct browser → Gemini Live API connection (no ephemeral token needed for single-user)
-    const ai = new GoogleGenAI({ apiKey })
+    // Connected via Ephemeral Token explicitly using v1alpha which is required for auth tokens
+    const ai = new GoogleGenAI({ 
+      apiKey: ephemeralToken,
+      httpOptions: { apiVersion: 'v1alpha' }
+    })
 
     const declarations = await getDeclarations()
     const savedHandle = sessionStorage.getItem(SESSION_HANDLE_KEY)
